@@ -25,7 +25,7 @@ const Bai2 = () => {
     }
     
     return(
-        <td>
+        <div>
             <input name='name' value={user.name} onChange={onChange}/>
             <input name='email' value={user.email} onChange={onChange}/>
             <button onClick={onClick}>Add</button>
@@ -46,7 +46,7 @@ const Bai2 = () => {
                 })
             }
             </table> 
-        </td>
+        </div>
     )
 }
 
