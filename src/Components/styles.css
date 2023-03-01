@@ -1,0 +1,17 @@
+td,th, table{
+    border: 1px solid rgb(165, 33, 33);
+    font-size: 20px;
+}
+td{
+    text-align: center;
+}
+table{
+    width: 50%;
+    margin: 50px auto;
+}
+input, button{
+    display: block;
+    margin: 10px auto;
+    font-size: 20px;
+    padding: 5px;
+}

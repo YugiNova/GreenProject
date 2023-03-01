@@ -1,10 +1,10 @@
 import React from "react";
 
-import Bai2 from "./Components/Bai2"
+import Bai3 from "./Components/Bai3"
 
 const App = () => {
     return ( 
-      < Bai2 / >
+      < Bai3 / >
     );
 }
 

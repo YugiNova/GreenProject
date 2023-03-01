@@ -10,6 +10,7 @@ const Bai2 = () => {
     }
 
     const onChange = (e) =>{
+        
         setUser({
             ...user,
             [e.target.name]: e.target.value
@@ -30,7 +31,7 @@ const Bai2 = () => {
             <input name='email' value={user.email} onChange={onChange}/>
             <button onClick={onClick}>Add</button>
 
-            <table>
+            <table style={myStyle}>
                 <tr>
                     <th style={myStyle}>Họ và tên</th>
                     <th style={myStyle}>Email</th>
@@ -44,7 +45,7 @@ const Bai2 = () => {
                         </tr>
                     )
                 })
-            }
+                }
             </table> 
         </div>
     )
