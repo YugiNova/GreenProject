@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import FormUser from "./FormUser";
+import TableUserList from "./TableUserList";
 import './styles.css'
 
 // import {DEFAULT_USER} from "./constans.js";
@@ -8,14 +10,23 @@ const Bai3 = () => {
     const [users, setUsers] = useState([])
     const [formData, setFormData] = useState(DEFAULT_USER)
 
-    const onChange = (e) =>{
-        const name = e.target.name;
-        const value = e.target.value;
+    const [keyword, setKeyword] = useState('')
+    const [searchUsers, setSearchUsers] = useState([])
+    useEffect(() => {
+        if(keyword !== ''){
+            const newUserList = users.filter(user=>{
+                return user.name === keyword
+            })
+            setSearchUsers(newUserList)
+        }
+        else{
+            setSearchUsers(users)
+        }
+    },[keyword, users])
 
-        setFormData({
-            ...formData,
-            [name] : value
-        })
+    const onSearch = (e) => {
+        setKeyword(e.target.value)
+        
     }
 
     const onClick = () => {
@@ -37,6 +48,7 @@ const Bai3 = () => {
                 }
             ])
         }
+
         setFormData(DEFAULT_USER)
     }
 
@@ -44,42 +56,21 @@ const Bai3 = () => {
         setFormData(selectedUser);
         console.log(selectedUser);
     }
+
     const onDelete =(selectedUser) =>{
         const newUsers = users.filter(user => {
             return user.id !== selectedUser.id
         })
+
         setUsers(newUsers)
     }
     
     return(
         <div>
-            <input name='name' value={formData.name} onChange={onChange} placeholder='Name'/>
-            <input name='email' value={formData.email} onChange={onChange} placeholder='Your Email'/>
-            <input name='phone' value={formData.phone} onChange={onChange} placeholder='Your Phone Numbers'/>
-            <button onClick={onClick}>{formData.id?'Edit':'Create'}</button>
+            <input value={keyword} onChange={onSearch}/>
+            <FormUser formData={formData} setFormData={setFormData} onClick={onClick}/>
 
-            <table >
-                <tr>
-                    {/* <th >ID</th> */}
-                    <th >Name</th>
-                    <th >Email</th>
-                    <th >Phone</th>
-                </tr>
-                {
-                users.map(user => {
-                    return(
-                        <tr>
-                            {/* <td >{user.id}</td> */}
-                            <td >{user.name}</td>
-                            <td >{user.email}</td>
-                            <td >{user.phone}</td>
-                            <td  onClick={()=>{onEdit(user)}}><button>Edit</button></td>
-                            <td  onClick={()=>{onDelete(user)}}><button>Delete</button></td>
-                        </tr>
-                    )
-                })
-                }
-            </table> 
+            <TableUserList users = {searchUsers} onEdit={onEdit} onDelete={onDelete}/>
         </div>
     )
 }
