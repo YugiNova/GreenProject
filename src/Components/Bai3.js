@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import SearchBox from "./SearchBox";
 import FormUser from "./FormUser";
 import TableUserList from "./TableUserList";
-import './styles.css'
+//import './styles.css'
 
 // import {DEFAULT_USER} from "./constans.js";
 const DEFAULT_USER = {name: '', email: '',phone: ''}
@@ -11,23 +12,33 @@ const Bai3 = () => {
     const [formData, setFormData] = useState(DEFAULT_USER)
 
     const [keyword, setKeyword] = useState('')
-    const [searchUsers, setSearchUsers] = useState([])
-    useEffect(() => {
+    // const [searchUsers, setSearchUsers] = useState([])
+
+    //useEffect -> update nhieu du lieu
+    // useEffect(() => {
+    //     if(keyword !== ''){
+    //         const newUserList = users.filter(user=>{
+    //             return user.name.includes(keyword) || user.email.includes(keyword) || user.phone.includes(keyword)
+    //         })
+    //         setSearchUsers(newUserList)
+    //     }
+    //     else{
+    //         setSearchUsers(users)
+    //     }
+    // },[keyword, users])
+
+    //userMemo -> update 1 du lieu
+    const searchUsers = useMemo(() => {
         if(keyword !== ''){
             const newUserList = users.filter(user=>{
-                return user.name === keyword
+                return user.name.includes(keyword) || user.email.includes(keyword) || user.phone.includes(keyword)
             })
-            setSearchUsers(newUserList)
+            return newUserList
         }
         else{
-            setSearchUsers(users)
+            return users
         }
     },[keyword, users])
-
-    const onSearch = (e) => {
-        setKeyword(e.target.value)
-        
-    }
 
     const onClick = () => {
         if(formData.id){
@@ -67,9 +78,9 @@ const Bai3 = () => {
     
     return(
         <div>
-            <input value={keyword} onChange={onSearch}/>
+            
             <FormUser formData={formData} setFormData={setFormData} onClick={onClick}/>
-
+            <SearchBox keyword={keyword} setKeyword={setKeyword}/>
             <TableUserList users = {searchUsers} onEdit={onEdit} onDelete={onDelete}/>
         </div>
     )
