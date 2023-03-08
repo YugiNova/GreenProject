@@ -1,6 +1,7 @@
 import "./Dashboard.css";
 import TableUserList from "./TableUserList";
 import FormUser from "./FormUser";
+import ModalFormUser from "./ModalFormUser/ModalFormUser";
 import GeneralDetail from "./GeneralDetail";
 import {
   MenuFoldOutlined,
@@ -9,12 +10,13 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Col, Row, Layout, Menu, theme } from "antd";
+import { Col, Row, Layout, Menu, theme, Modal, Button } from "antd";
 import React, { useState, useEffect } from "react";
 
 const { Header, Sider, Content } = Layout;
 
 const DEFAULT_USER = {
+  id: "",
   username: "",
   password: "",
   name: "",
@@ -23,6 +25,8 @@ const DEFAULT_USER = {
   gender: "",
 };
 const Dashboard = () => {
+  
+
   //Layout variables -antd
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -37,10 +41,54 @@ const Dashboard = () => {
     console.log(users);
   }, [users]);
 
+  //Submit Handle
   const onClick = () => {
-    setUsers([...users, formData]);
+    if (formData.id) {
+      const newUsers = users.map((user) => {
+        if (user.id === formData.id) {
+          return formData;
+        }
+        return user;
+      });
+      setUsers(newUsers);
+      console.log("edit");
+    } else {
+      setUsers([
+        ...users,
+        {
+          
+          ...formData,
+          id:Math.random()
+        },
+      ]);
+      console.log("submit");
+    }
     setFormData(DEFAULT_USER);
   };
+
+  
+
+  //Delete Handle
+  const onDelete = (selectedItem) => {
+    const newUsers = users.filter((user)=>{
+      return user.id !== selectedItem.id
+    })
+    setUsers(newUsers)
+  }
+
+  //Modal handle
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  
 
   return (
     <Layout className="wrapper">
@@ -94,17 +142,13 @@ const Dashboard = () => {
         >
           <Row>
             <Col span={12}>
-              <FormUser
-                formData={formData}
-                setFormData={setFormData}
-                onClick={onClick}
-              />
+              <ModalFormUser check="add" onClick={onClick} formData={formData} setFormData={setFormData}/>
             </Col>
             <Col span={12}>
-              <GeneralDetail usersLength={users.length}/>
+              <GeneralDetail usersLength={users.length} />
             </Col>
           </Row>
-          <TableUserList users={users} />
+          <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
         </Content>
       </Layout>
     </Layout>

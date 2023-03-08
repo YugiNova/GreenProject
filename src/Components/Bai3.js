@@ -87,3 +87,9 @@ const Bai3 = () => {
 }
 
 export default Bai3
+
+
+//useRef
+//React Route
+//Redux
+//Layout cua du an route va redux

@@ -63,11 +63,11 @@ const FormUser = ({ formData, setFormData, onClick }) => {
           placeholder="Gender"
         />
       </Col>
-      <Col span={24} className="input">
+      {/* <Col span={24} className="input">
         <Button className="btn-submit" onClick={onClick} type="primary">
           Submit
         </Button>
-      </Col>
+      </Col> */}
     </Row>
   );
 };
