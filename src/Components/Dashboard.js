@@ -10,8 +10,8 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Col, Row, Layout, Menu, theme, Modal, Button } from "antd";
-import React, { useState, useEffect } from "react";
+import { Col, Row, Layout, Menu, theme, Modal, Button, Input } from "antd";
+import React, { useState, useEffect, useMemo } from "react";
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,7 +25,7 @@ const DEFAULT_USER = {
   gender: "",
 };
 const Dashboard = () => {
-  
+  const [open, setOpen] = useState(false);
 
   //Layout variables -antd
   const [collapsed, setCollapsed] = useState(false);
@@ -33,16 +33,36 @@ const Dashboard = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+
   //Data variables
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState(DEFAULT_USER);
+  const [keyword,setKeyword] = useState()
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
+  const onCancel = () => {
+   setOpen(false) 
+  }
+
+  //Handle Search
+  const searchUsers = useMemo(() => {
+    if(keyword !== ''){
+        const newUserList = users.filter(user=>{
+            return user.name.includes(keyword) || user.email.includes(keyword) || user.phone.includes(keyword)
+        })
+        return newUserList
+
+    }
+    else{
+        return users
+    }
+  },[keyword, users])
+
+  const onSearch = (e) => {
+    setKeyword(e.target.value)
+  }
 
   //Submit Handle
-  const onClick = () => {
+  const onSubmit = () => {
     if (formData.id) {
       const newUsers = users.map((user) => {
         if (user.id === formData.id) {
@@ -56,7 +76,6 @@ const Dashboard = () => {
       setUsers([
         ...users,
         {
-          
           ...formData,
           id:Math.random()
         },
@@ -64,9 +83,8 @@ const Dashboard = () => {
       console.log("submit");
     }
     setFormData(DEFAULT_USER);
+    setOpen(true)
   };
-
-  
 
   //Delete Handle
   const onDelete = (selectedItem) => {
@@ -76,22 +94,21 @@ const Dashboard = () => {
     setUsers(newUsers)
   }
 
-  //Modal handle
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
-  
+  //Edit Handle
+  const onEdit = (selectedItem) => {
+    setFormData({
+      ...formData,
+      selectedItem
+    })
+  }
+
 
   return (
-    <Layout className="wrapper">
+    <>
+      
+      <Layout className="wrapper">
+      
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu
@@ -141,17 +158,28 @@ const Dashboard = () => {
           }}
         >
           <Row>
-            <Col span={12}>
-              <ModalFormUser check="add" onClick={onClick} formData={formData} setFormData={setFormData}/>
+            <Col span={6}>
+              <Button onClick={onSubmit}>Add Users</Button>
+              <ModalFormUser formData={formData} setFormData={setFormData} open={open}/>
+              <Input
+                style={{margin:"20px 0"}}
+                value={keyword}
+                onChange={onSearch}
+                placeholder="Search anything...."
+              />
+            </Col>
+            <Col span={6}>
             </Col>
             <Col span={12}>
               <GeneralDetail usersLength={users.length} />
             </Col>
           </Row>
-          <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
+          <TableUserList onDelete={onDelete}  onEdit={onEdit} users={searchUsers} formData={formData} setFormData={setFormData}/>
         </Content>
       </Layout>
     </Layout>
+    </>
+    
   );
 };
 export default Dashboard;

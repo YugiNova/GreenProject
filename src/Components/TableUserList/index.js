@@ -41,14 +41,18 @@ const TableUserList = (props) => {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <ModalFormUser selectedItem={record} check="edit" onClick={props.onClick} formData={props.formData} setFormData={props.setFormData}/>
+      render: (_, record) => {
+        return(
+          <Space size="middle">
+          <Button onClick={()=>{props.onEdit(record)}} className='btn-edit' type="primary">Edit</Button>
           <Button onClick={()=>{props.onDelete(record)}} className='btn-delete' type="primary">Delete</Button>
         </Space>
-      ),
+        )
+        },
     },
   ];
+
+
 
   return <Table dataSource={props.users} columns={columns} />;
 };

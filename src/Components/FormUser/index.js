@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import { Col, Row, Button } from "antd";
+import { Col, Row, Button, Select } from "antd";
 import "./index.css";
 import { useEffect } from "react";
 
@@ -12,6 +12,29 @@ const FormUser = ({ formData, setFormData, onClick }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleChange = (value) => {
+    setFormData({
+      ...formData,
+      gender: value,
+    });
+    console.log(`selected ${value}`);
+  };
+
+  const options = [
+    {
+      value: 'male',
+      lable: 'Male'
+    },
+    {
+      value: 'female',
+      lable: 'Female'
+    },
+    {
+      value: 'other',
+      lable: 'other'
+    }
+  ]
 
   return (
     <Row id="form-users">
@@ -56,12 +79,14 @@ const FormUser = ({ formData, setFormData, onClick }) => {
         />
       </Col>
       <Col span={8} className="input">
-        <Input
-          name="gender"
-          value={formData.gender}
-          onChange={onChange}
-          placeholder="Gender"
-        />
+      <Select
+      defaultValue="please select gender"
+      style={{
+        width: "100%"
+      }}
+      onChange={handleChange}
+      options={options}
+    />
       </Col>
       {/* <Col span={24} className="input">
         <Button className="btn-submit" onClick={onClick} type="primary">
