@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+import styled from 'styled-components/'
 import TableUserList from "./TableUserList";
 import FormUser from "./FormUser";
 import ModalFormUser from "./ModalFormUser/ModalFormUser";
@@ -33,7 +34,6 @@ const Dashboard = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-
   //Data variables
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState(DEFAULT_USER);
@@ -62,11 +62,11 @@ const Dashboard = () => {
   }
 
   //Submit Handle
-  const onSubmit = () => {
-    if (formData.id) {
+  const onSubmit = (id, data) => {
+    if (id) {
       const newUsers = users.map((user) => {
-        if (user.id === formData.id) {
-          return formData;
+        if (user.id === id) {
+          return data;
         }
         return user;
       });
@@ -76,14 +76,13 @@ const Dashboard = () => {
       setUsers([
         ...users,
         {
-          ...formData,
+          ...data,
           id:Math.random()
         },
       ]);
       console.log("submit");
     }
-    setFormData(DEFAULT_USER);
-    setOpen(true)
+    console.log(formData);
   };
 
   //Delete Handle
@@ -97,16 +96,30 @@ const Dashboard = () => {
 
   //Edit Handle
   const onEdit = (selectedItem) => {
-    setFormData({
-      ...formData,
-      selectedItem
-    })
+    setFormData(selectedItem)
+    setOpen(true)
+    console.log(selectedItem);
   }
 
+  const Button = styled.button`
+      padding: 10px 20px;
+      font-weight: bold;
+      border:3px solid;
+      border-image: linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1) 1;
+      background: linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+      color: white;
+      cursor: pointer;
+      transition:ease 0.5s;
+      :hover{
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        transform: rotateY(360deg);
+      }
+  `;
 
   return (
     <>
-      
       <Layout className="wrapper">
       
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -159,8 +172,8 @@ const Dashboard = () => {
         >
           <Row>
             <Col span={6}>
-              <Button onClick={onSubmit}>Add Users</Button>
-              <ModalFormUser formData={formData} setFormData={setFormData} open={open}/>
+              <Button onClick={()=> {setOpen(true)}}>Add Users</Button>
+              <ModalFormUser formData={formData} setFormData={setFormData} open={open} onCancel={onCancel} onSubmit={onSubmit}/>
               <Input
                 style={{margin:"20px 0"}}
                 value={keyword}
@@ -174,7 +187,7 @@ const Dashboard = () => {
               <GeneralDetail usersLength={users.length} />
             </Col>
           </Row>
-          <TableUserList onDelete={onDelete}  onEdit={onEdit} users={searchUsers} formData={formData} setFormData={setFormData}/>
+          <TableUserList onDelete={onDelete} onEdit={onEdit} users={searchUsers}/>
         </Content>
       </Layout>
     </Layout>

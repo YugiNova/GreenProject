@@ -1,19 +1,21 @@
 import FormUser from "../FormUser";
-import { Button, Modal } from "antd";
+import { Form, Modal } from "antd";
 import { useState } from "react";
-const ModalFormUser = ({formData,setFormData,open, onSubmit}) => {
+const ModalFormUser = ({formData,setFormData,open, onCancel, onSubmit}) => {
   
+
   return (
     <>
       <Modal
         open={open}
         onOk={onSubmit}
-        onCancel={open}
+        onCancel={onCancel}
       >
         <FormUser
           formData={formData}
           setFormData={setFormData}
-          // onClick={onClick}
+          onSubmit={onSubmit}
+          open={open}
         />
       </Modal>
     </>
