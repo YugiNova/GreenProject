@@ -147,8 +147,10 @@ const Dashboard = () => {
             <Col span={12}>
               <GeneralDetail usersLength={users.length} />
             </Col>
+            <Col span={24}>
+            <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
+            </Col>
           </Row>
-          <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
         </Content>
       </Layout>
     </Layout>

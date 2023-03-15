@@ -8,6 +8,7 @@ const ModalFormUser = ({onClick,formData,setFormData,selectedItem,check}) => {
       console.log(selectedItem);
       setFormData(selectedItem);
     }
+    setIsModalOpen(true);
   };
   const handleOk = () => {
     setIsModalOpen(false);
