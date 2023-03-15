@@ -1,4 +1,4 @@
-import {Table} from 'antd'
+import {Table, Button} from 'antd'
 const TableUserList = (props) => {
       const columns = [
         {
@@ -16,6 +16,18 @@ const TableUserList = (props) => {
           dataIndex: 'phone',
           key: 'phone',
         },
+        {
+          title: 'Action',
+          dataIndex: 'action',
+          render: (text,item) =>{
+            return(
+              <div>
+                <Button onClick={()=>{props.onEdit(item)}}>Edit</Button>
+                <Button onClick={()=>{props.onEdit(item)}}>Delete</Button>
+              </div>
+            );
+          }
+        }
       ];
       
       
