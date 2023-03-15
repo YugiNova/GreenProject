@@ -1,5 +1,21 @@
-import {Table, Button} from 'antd'
+import {Table, Button, Modal} from 'antd'
+import { ExclamationCircleFilled } from '@ant-design/icons';
+const {confirm} = Modal;
+
 const TableUserList = (props) => {
+      const showConfirm = (item) => {
+        confirm({
+          title: 'Do you Want to delete these items?',
+          icon: <ExclamationCircleFilled />,
+          content: 'Some descriptions',
+          onOk() {
+            props.onDelete(item)
+          },
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
+      };
       const columns = [
         {
           title: 'Name',
@@ -23,6 +39,7 @@ const TableUserList = (props) => {
             return(
               <div>
                 <Button onClick={()=>{props.onEdit(item)}}>Edit</Button>
+                <Button onClick={()=>{showConfirm(item)}}>Delete</Button>
               </div>
             );
           }

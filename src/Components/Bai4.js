@@ -35,11 +35,9 @@ const Bai4 = () => {
             setUsers([
                 ...users,
                 {
-                    
                     id: Math.random(),
                     ...data,
                 }
-                
             ])
             
         }
@@ -47,9 +45,17 @@ const Bai4 = () => {
     }
 
     const onEdit = (selectedUser) => {
+        setFormdata(selectedUser);
         form.setFieldValue({name:selectedUser.name,email:selectedUser.email,phone:selectedUser.phone})
         setIsOpen(true)
         console.log(selectedUser);
+    }
+
+    const onDelete = (selectedUser) => {
+        const newUsers = users.filter(user => {
+            return user.id !== selectedUser.id
+        })
+        setUsers(newUsers)
     }
 
 
@@ -57,7 +63,7 @@ const Bai4 = () => {
         <div>
             <Button onClick={onCreate}>Add Users</Button>
             <ModalFormUser isOpen={isOpen} onCancel={onCancel} onSubmit={onSubmit} onCreate={onCreate} formData={formData} form={form}/>
-            <TableUserList users={users} onEdit={onEdit}/>
+            <TableUserList users={users} onEdit={onEdit} onDelete={onDelete}/>
         </div>
     )
 }
