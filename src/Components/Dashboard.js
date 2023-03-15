@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+import styled from 'styled-components/'
 import TableUserList from "./TableUserList";
 import FormUser from "./FormUser";
 import ModalFormUser from "./ModalFormUser/ModalFormUser";
@@ -10,8 +11,8 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Col, Row, Layout, Menu, theme, Modal, Button } from "antd";
-import React, { useState, useEffect } from "react";
+import { Col, Row, Layout, Menu, theme, Modal, Button, Input } from "antd";
+import React, { useState, useEffect, useMemo } from "react";
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,7 +26,7 @@ const DEFAULT_USER = {
   gender: "",
 };
 const Dashboard = () => {
-  
+  const [open, setOpen] = useState(false);
 
   //Layout variables -antd
   const [collapsed, setCollapsed] = useState(false);
@@ -36,17 +37,36 @@ const Dashboard = () => {
   //Data variables
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState(DEFAULT_USER);
+  const [keyword,setKeyword] = useState()
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
+  const onCancel = () => {
+   setOpen(false) 
+  }
+
+  //Handle Search
+  const searchUsers = useMemo(() => {
+    if(keyword !== ''){
+        const newUserList = users.filter(user=>{
+            return user.name.includes(keyword) || user.email.includes(keyword) || user.phone.includes(keyword)
+        })
+        return newUserList
+
+    }
+    else{
+        return users
+    }
+  },[keyword, users])
+
+  const onSearch = (e) => {
+    setKeyword(e.target.value)
+  }
 
   //Submit Handle
-  const onClick = () => {
-    if (formData.id) {
+  const onSubmit = (id, data) => {
+    if (id) {
       const newUsers = users.map((user) => {
-        if (user.id === formData.id) {
-          return formData;
+        if (user.id === id) {
+          return data;
         }
         return user;
       });
@@ -56,17 +76,14 @@ const Dashboard = () => {
       setUsers([
         ...users,
         {
-          
-          ...formData,
+          ...data,
           id:Math.random()
         },
       ]);
       console.log("submit");
     }
-    setFormData(DEFAULT_USER);
+    console.log(formData);
   };
-
-  
 
   //Delete Handle
   const onDelete = (selectedItem) => {
@@ -76,22 +93,35 @@ const Dashboard = () => {
     setUsers(newUsers)
   }
 
-  //Modal handle
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
-  
+  //Edit Handle
+  const onEdit = (selectedItem) => {
+    setFormData(selectedItem)
+    setOpen(true)
+    console.log(selectedItem);
+  }
+
+  const Button = styled.button`
+      padding: 10px 20px;
+      font-weight: bold;
+      border:3px solid;
+      border-image: linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1) 1;
+      background: linear-gradient(to right, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+      color: white;
+      cursor: pointer;
+      transition:ease 0.5s;
+      :hover{
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        transform: rotateY(360deg);
+      }
+  `;
 
   return (
-    <Layout className="wrapper">
+    <>
+      <Layout className="wrapper">
+      
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu
@@ -141,8 +171,17 @@ const Dashboard = () => {
           }}
         >
           <Row>
-            <Col span={12}>
-              <ModalFormUser check="add" onClick={onClick} formData={formData} setFormData={setFormData}/>
+            <Col span={6}>
+              <Button onClick={()=> {setOpen(true)}}>Add Users</Button>
+              <ModalFormUser formData={formData} setFormData={setFormData} open={open} onCancel={onCancel} onSubmit={onSubmit}/>
+              <Input
+                style={{margin:"20px 0"}}
+                value={keyword}
+                onChange={onSearch}
+                placeholder="Search anything...."
+              />
+            </Col>
+            <Col span={6}>
             </Col>
             <Col span={12}>
               <GeneralDetail usersLength={users.length} />
@@ -151,9 +190,12 @@ const Dashboard = () => {
             <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
             </Col>
           </Row>
+          <TableUserList onDelete={onDelete} users={users} onClick={onClick} formData={formData} setFormData={setFormData}/>
         </Content>
       </Layout>
     </Layout>
+    </>
+    
   );
 };
 export default Dashboard;

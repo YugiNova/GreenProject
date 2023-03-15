@@ -1,6 +1,7 @@
 import FormUser from "../FormUser";
-import { Button, Modal } from "antd";
+import { Form, Modal } from "antd";
 import { useState } from "react";
+<<<<<<< HEAD
 const ModalFormUser = ({onClick,formData,setFormData,selectedItem,check}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (selectedItem) => {
@@ -16,21 +17,23 @@ const ModalFormUser = ({onClick,formData,setFormData,selectedItem,check}) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+=======
+const ModalFormUser = ({formData,setFormData,open, onCancel, onSubmit}) => {
+  
+
+>>>>>>> 5a291cf35020c2356e8c3b8633ff510a169e10b0
   return (
     <>
-      <Button style={check=="add"?{backgroundColor: "green"}:{}}  type="primary" onClick={()=>{showModal(selectedItem)}}>
-        {check=="add"?"Add User":"Edit"}
-      </Button>
       <Modal
-        title="Basic Modal"
-        open={isModalOpen}
-        onOk={onClick}
-        onCancel={handleCancel}
+        open={open}
+        onOk={onSubmit}
+        onCancel={onCancel}
       >
         <FormUser
           formData={formData}
           setFormData={setFormData}
-          // onClick={onClick}
+          onSubmit={onSubmit}
+          open={open}
         />
       </Modal>
     </>
