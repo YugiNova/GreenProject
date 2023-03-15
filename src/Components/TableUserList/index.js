@@ -23,7 +23,6 @@ const TableUserList = (props) => {
             return(
               <div>
                 <Button onClick={()=>{props.onEdit(item)}}>Edit</Button>
-                <Button onClick={()=>{props.onEdit(item)}}>Delete</Button>
               </div>
             );
           }

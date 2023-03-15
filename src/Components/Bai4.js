@@ -1,11 +1,15 @@
 import { useState, useEffect, useMemo } from "react";
-import {Button, Modal} from 'antd'
+import {Button, Modal,Form} from 'antd'
 import ModalFormUser from "./ModalFormUser";
 import TableUserList from "./TableUserList"
 
+const DEFAULT_USER = {id:"",name:"",email:"", phone:""}
+
 const Bai4 = () => {
+    const [form] = Form.useForm();
     const [isOpen,setIsOpen] = useState(false);
     const [users,setUsers] = useState([]);
+    const [formData, setFormdata] = useState(DEFAULT_USER);
     
     const onCancel = () => {
         setIsOpen(false)
@@ -25,25 +29,35 @@ const Bai4 = () => {
                 return user
             })
             setUsers(newUsers);
+            
         }
         else{
             setUsers([
                 ...users,
                 {
-                    ...data,
+                    
                     id: Math.random(),
+                    ...data,
                 }
+                
             ])
+            
         }
-        
+        console.log(users);
+    }
+
+    const onEdit = (selectedUser) => {
+        form.setFieldValue({name:selectedUser.name,email:selectedUser.email,phone:selectedUser.phone})
+        setIsOpen(true)
+        console.log(selectedUser);
     }
 
 
     return(
         <div>
             <Button onClick={onCreate}>Add Users</Button>
-            <ModalFormUser isOpen={isOpen} onCancel={onCancel} onSubmit={onSubmit} onCreate={onCreate}/>
-            <TableUserList users={users}/>
+            <ModalFormUser isOpen={isOpen} onCancel={onCancel} onSubmit={onSubmit} onCreate={onCreate} formData={formData} form={form}/>
+            <TableUserList users={users} onEdit={onEdit}/>
         </div>
     )
 }

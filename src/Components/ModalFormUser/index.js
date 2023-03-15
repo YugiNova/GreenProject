@@ -1,11 +1,12 @@
 import {Button, Modal, Form, Input} from 'antd'
 
-const ModalFormUser = ({isOpen,onSubmit,onCancel}) => {
+const ModalFormUser = ({isOpen,onSubmit,onCancel, formData, form}) => {
 
-    const [form] = Form.useForm();
+    
     const onFinish = () => {
         const data = form.getFieldValue();
-        onSubmit(id,data);
+        onSubmit(formData.id,data);
+        form.resetFields();
     }
 
 
