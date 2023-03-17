@@ -1,11 +1,11 @@
 import React from "react";
 import 'antd/dist/reset.css';
 import './App.css';
-import Exam05 from './Components/Exam05'
+import Exam06 from "./Components/Exam06";
 
 const App = () => {
     return ( 
-    <Exam05/>
+    <Exam06/>
     );
 }
 

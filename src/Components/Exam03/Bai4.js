@@ -38,7 +38,7 @@ const Bai4 = () => {
         if(id){
             const newUsers = users.map(user => {
                 if(user.id === id){
-                    return data
+                    return {id:id,...data}
                 }
                 return user
             })
