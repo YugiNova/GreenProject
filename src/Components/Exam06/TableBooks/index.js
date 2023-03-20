@@ -1,5 +1,6 @@
 import {Table, Button, Modal} from 'antd'
 import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Actions } from './styles';
 const {confirm} = Modal;
 
 const TableBooks = (props) => {
@@ -52,10 +53,10 @@ const TableBooks = (props) => {
           dataIndex: 'action',
           render: (text,item) =>{
             return(
-              <div>
-                <Button onClick={()=>{props.onEdit(item)}}>Edit</Button>
+              <Actions>
+                <Button className='red' onClick={()=>{props.onEdit(item)}}>Edit</Button>
                 <Button onClick={()=>{showConfirm(item)}}>Delete</Button>
-              </div>
+              </Actions>
             );
           }
         }
