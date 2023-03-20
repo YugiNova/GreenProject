@@ -7,7 +7,4 @@ export const Actions = styled.div`
         
         
     }
-    .red{
-            background-color:red;
-    }
 `;

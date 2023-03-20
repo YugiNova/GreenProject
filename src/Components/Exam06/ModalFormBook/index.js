@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { PageNumber } from './styles';
 const { TextArea } = Input;
 
-const ModalFormBook = ({open,onSubmit,onCancel, formData}) => {
+const ModalFormBook = ({open,onSubmit,onCancel, formData,setFormData,DEFAULT_BOOK}) => {
     const [form] = Form.useForm();
 
     //Handle Add
@@ -15,7 +15,8 @@ const ModalFormBook = ({open,onSubmit,onCancel, formData}) => {
     //Handle reset fields
     useEffect(()=>{
         if(!open){
-            form.resetFields()
+            form.resetFields();
+            setFormData(DEFAULT_BOOK);
         }
     },[open])
 

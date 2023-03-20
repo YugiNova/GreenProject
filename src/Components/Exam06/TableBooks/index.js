@@ -54,7 +54,7 @@ const TableBooks = (props) => {
           render: (text,item) =>{
             return(
               <Actions>
-                <Button className='red' onClick={()=>{props.onEdit(item)}}>Edit</Button>
+                <Button className='red' onClick={()=>{props.onEdit(item.id)}}>Edit</Button>
                 <Button onClick={()=>{showConfirm(item)}}>Delete</Button>
               </Actions>
             );
