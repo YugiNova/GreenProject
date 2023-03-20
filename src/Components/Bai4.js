@@ -11,6 +11,11 @@ const Bai4 = () => {
     const [users,setUsers] = useState([]);
     const [formData, setFormdata] = useState(DEFAULT_USER);
     
+
+    useEffect(()=>{
+        console.log("formData: " + formData);
+    },[formData])
+
     const onCancel = () => {
         setIsOpen(false)
     }
@@ -46,9 +51,7 @@ const Bai4 = () => {
 
     const onEdit = (selectedUser) => {
         setFormdata(selectedUser);
-        form.setFieldValue({name:selectedUser.name,email:selectedUser.email,phone:selectedUser.phone})
         setIsOpen(true)
-        console.log(selectedUser);
     }
 
     const onDelete = (selectedUser) => {
