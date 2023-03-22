@@ -19,34 +19,29 @@ const TableBooks = (props) => {
       };
       const columns = [
         {
-          title: 'Title',
-          dataIndex: 'title',
-          key: 'title',
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
         },
         {
-          title: 'Author',
-          dataIndex: 'author',
-          key: 'author',
+          title: 'Country',
+          dataIndex: 'country',
+          key: 'country',
         },
         {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
+          title: 'Country Code',
+          dataIndex: 'countryCode',
+          key: 'countryCode',
         },
         {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
+          title: 'Population',
+          dataIndex: 'population',
+          key: 'population',
         },
         {
-          title: 'Type',
-          dataIndex: 'type',
-          key: 'type',
-        },
-        {
-          title: 'Page Number',
-          dataIndex: 'pageNumber',
-          key: 'pageNumber',
+          title: 'Country Flag',
+          dataIndex: 'countryflag',
+          key: 'countryflag',
         },
         {
           title: 'Action',
@@ -64,7 +59,7 @@ const TableBooks = (props) => {
       
       
     return(
-        <Table loading={props.loading} dataSource={props.books} columns={columns} />
+        <Table loading={props.loading} dataSource={props.cities} columns={columns} />
     )
 }
 

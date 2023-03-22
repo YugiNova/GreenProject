@@ -5,32 +5,32 @@ import TableBooks from "./TableBooks";
 import ModalFormBook from "./ModalFormBook";
 import { ButtonCreate, Header, SearchBox } from "./styles";
 
-const DEFAULT_BOOK = {title:"",author:"",description:"", type:"", pageNumber: ""}
+const DEFAULT_CITY = {name:"",country:"",countryCode:"", population:"", countryflag: ""}
 
-const Exam06 = () => {
-    const [books,setBooks] = useState([]);
-    const [formData, setFormdata] = useState(DEFAULT_BOOK);
+const Exam07 = () => {
+    const [cities,setCities] = useState([]);
+    const [formData, setFormdata] = useState(DEFAULT_CITY);
     const [open,setOpen] = useState(false)
     const [keyword,setKeyword] = useState();
     const [tableLoading,setTableLoading] = useState(false);
     const [formLoading,setFormLoading] = useState(false);
     const [itemLoading,setItemLoading] = useState(false);
     
-    const booksSearchResult = useMemo(()=>{
+    const citiesSearchResult = useMemo(()=>{
         if(keyword){
-            const newBooks = books.filter(book=>{
-                return book.title.includes(keyword) || book.author.includes(keyword)
+            const newcities = cities.filter(item=>{
+                return item.name.includes(keyword) || item.country.includes(keyword)
             })
-            return newBooks
+            return newcities
         }
-        return books
-        console.log(booksSearchResult);
-    },[keyword,books])
+        return cities
+        console.log(cities);
+    },[keyword,cities])
 
     const fetchData = () => {
         setTableLoading(true);
-        axios.get('https://6401dc9d0a2a1afebef3c167.mockapi.io/books').then((res)=>{
-            setBooks(res.data);
+        axios.get('https://6401dc9d0a2a1afebef3c167.mockapi.io/cities').then((res)=>{
+            setCities(res.data);
             setTableLoading(false);
         })
     }
@@ -69,18 +69,18 @@ const Exam06 = () => {
         setFormLoading(true);
         if(id){
             axios
-                .put(`https://6401dc9d0a2a1afebef3c167.mockapi.io/books/${id}`,data)
+                .put(`https://6401dc9d0a2a1afebef3c167.mockapi.io/cities/${id}`,data)
                 .then((res)=>{
                     setFormLoading(false)
-                    setFormdata(DEFAULT_BOOK);
+                    setFormdata(DEFAULT_CITY);
                     fetchData();
                 })
             //setBooks(newBooks);   
         }
         else{
-           axios.post('https://6401dc9d0a2a1afebef3c167.mockapi.io/books',data).then((res) => {
+           axios.post('https://6401dc9d0a2a1afebef3c167.mockapi.io/cities',data).then((res) => {
                 setFormLoading(false)
-                setFormdata(DEFAULT_BOOK); 
+                setFormdata(DEFAULT_CITY); 
                 fetchData();
            })
         }
@@ -90,7 +90,7 @@ const Exam06 = () => {
     const onEdit = (id) => {
         setItemLoading(true);
         axios
-        .get(`https://6401dc9d0a2a1afebef3c167.mockapi.io/books/${id}`)
+        .get(`https://6401dc9d0a2a1afebef3c167.mockapi.io/cities/${id}`)
         .then((res)=>{
             setFormdata(res.data);
             setOpen(true);
@@ -102,7 +102,7 @@ const Exam06 = () => {
     const onDelete = (id) => {
         setItemLoading(true);
         axios
-        .delete(`https://6401dc9d0a2a1afebef3c167.mockapi.io/books/${id}`)
+        .delete(`https://6401dc9d0a2a1afebef3c167.mockapi.io/cities/${id}`)
         .then((res)=>{
             setItemLoading(false);
             fetchData();
@@ -120,10 +120,10 @@ const Exam06 = () => {
                 <SearchBox onChange={onSearch}/>
                 <ButtonCreate onClick={onCreate}>Add Book</ButtonCreate>
             </Header>
-            <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_BOOK={DEFAULT_BOOK}/>
-            <TableBooks itemLoading={itemLoading} loading={tableLoading} books={booksSearchResult} onDelete={onDelete} onEdit={onEdit} formData={formData}/>
+            <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_CITY={DEFAULT_CITY}/>
+            <TableBooks itemLoading={itemLoading} loading={tableLoading} cities={citiesSearchResult} onDelete={onDelete} onEdit={onEdit} formData={formData}/>
         </div>
     );
 }
 
-export default Exam06
+export default Exam07

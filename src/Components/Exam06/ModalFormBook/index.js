@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { PageNumber } from './styles';
 const { TextArea } = Input;
 
-const ModalFormBook = ({open,onSubmit,onCancel, formData,setFormData,DEFAULT_BOOK}) => {
+const ModalFormBook = ({loading, open,onSubmit,onCancel, formData,setFormData,DEFAULT_BOOK}) => {
     const [form] = Form.useForm();
 
     //Handle Add
@@ -42,7 +42,7 @@ const ModalFormBook = ({open,onSubmit,onCancel, formData,setFormData,DEFAULT_BOO
 
     return(
         <div>
-        <Modal open={open} onOk={onFinish} onCancel={onCancel}>
+        <Modal confirmLoading={loading} open={open || loading} onOk={onFinish} onCancel={onCancel}>
             <Form layout='vertical' form={form} >
                 <Form.Item label="Tên sách" name="title" rules={[{required:true, message: "Tên sách là bắt buộc"}]}>
                     <Input placeholder='book name'></Input>
