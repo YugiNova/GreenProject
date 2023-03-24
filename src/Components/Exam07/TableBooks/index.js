@@ -1,7 +1,17 @@
 import {Table, Button, Modal} from 'antd'
-import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Actions } from './styles';
+import { UserOutlined,ExclamationCircleFilled } from '@ant-design/icons';
+import { Actions,Country, Image,Population } from './styles';
 const {confirm} = Modal;
+
+const getColor = (population) => {
+  if(population < 5){
+    return "green"
+  }
+  else if (population < 10){
+    return "yellow"
+  }
+  return "red";
+}
 
 const TableBooks = (props) => {
       const showConfirm = (item) => {
@@ -24,24 +34,33 @@ const TableBooks = (props) => {
           key: 'name',
         },
         {
-          title: 'Country',
-          dataIndex: 'country',
-          key: 'country',
-        },
-        {
-          title: 'Country Code',
-          dataIndex: 'countryCode',
-          key: 'countryCode',
-        },
-        {
           title: 'Population',
           dataIndex: 'population',
           key: 'population',
+          render: (text,item) => {
+            const color = getColor(item.population)
+            return(
+              <Population color={color}>
+                {item.population} <UserOutlined />
+              </Population>
+            );
+          }
         },
         {
-          title: 'Country Flag',
-          dataIndex: 'countryflag',
-          key: 'countryflag',
+          title: 'Country',
+          dataIndex: 'country',
+          key: 'country',
+          render: (text,item) => {
+            return(
+              <Country>
+                <Image src={item.countryflag}/>
+                <div>
+                  <h6>{item.country}</h6>
+                  <div>{item.countryCode}</div>
+                </div>
+              </Country>
+            );
+          }
         },
         {
           title: 'Action',
@@ -49,6 +68,7 @@ const TableBooks = (props) => {
           render: (text,item) =>{
             return(
               <Actions>
+                <Button onClick={()=> {props.onGetWeather(item.name)}}>Weather</Button>
                 <Button disabled={props.itemLoading} onClick={()=>{props.onEdit(item.id)}}>Edit</Button>
                 <Button disabled={props.itemLoading} onClick={()=>{showConfirm(item)}}>Delete</Button>
               </Actions>

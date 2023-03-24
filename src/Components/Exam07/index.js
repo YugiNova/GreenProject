@@ -4,6 +4,7 @@ import axios from "axios";
 import TableBooks from "./TableBooks";
 import ModalFormBook from "./ModalFormBook";
 import { ButtonCreate, Header, SearchBox } from "./styles";
+import ModalWeather from "./ModalWeather";
 
 const DEFAULT_CITY = {name:"",country:"",countryCode:"", population:"", countryflag: ""}
 
@@ -15,6 +16,7 @@ const Exam07 = () => {
     const [tableLoading,setTableLoading] = useState(false);
     const [formLoading,setFormLoading] = useState(false);
     const [itemLoading,setItemLoading] = useState(false);
+    const [cityName,setCityName] = useState();
     
     const citiesSearchResult = useMemo(()=>{
         if(keyword){
@@ -114,6 +116,10 @@ const Exam07 = () => {
         setKeyword(e.target.value);
     }
 
+    const onGetWeather = (name) => {
+        console.log(name);
+        setCityName(name);
+    }
     return(
         <div>
             <Header>
@@ -121,7 +127,8 @@ const Exam07 = () => {
                 <ButtonCreate onClick={onCreate}>Add Book</ButtonCreate>
             </Header>
             <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_CITY={DEFAULT_CITY}/>
-            <TableBooks itemLoading={itemLoading} loading={tableLoading} cities={citiesSearchResult} onDelete={onDelete} onEdit={onEdit} formData={formData}/>
+            <ModalWeather name={cityName}/>
+            <TableBooks onGetWeather={onGetWeather} itemLoading={itemLoading} loading={tableLoading} cities={citiesSearchResult} onDelete={onDelete} onEdit={onEdit} formData={formData}/>
         </div>
     );
 }
