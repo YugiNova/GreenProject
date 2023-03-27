@@ -5,6 +5,7 @@ import TableBooks from "./TableBooks";
 import ModalFormBook from "./ModalFormBook";
 import { ButtonCreate, Header, SearchBox } from "./styles";
 import ModalWeather from "./ModalWeather";
+import ButtonImport from "./ButtonImport";
 
 const DEFAULT_CITY = {name:"",country:"",countryCode:"", population:"", countryflag: ""}
 
@@ -120,10 +121,22 @@ const Exam07 = () => {
         console.log(name);
         setCityName(name);
     }
+
+    const  onImport = async (items) => {
+        setTableLoading(true);
+
+        for(let i = 0; i< items.length; i++){
+            await axios.post('https://6401dc9d0a2a1afebef3c167.mockapi.io/cities',items[i])
+        }
+
+        fetchData();
+    }
+
     return(
         <div>
             <Header>
                 <SearchBox onChange={onSearch}/>
+                <ButtonImport onImport={onImport}/>
                 <ButtonCreate onClick={onCreate}>Add Book</ButtonCreate>
             </Header>
             <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_CITY={DEFAULT_CITY}/>
