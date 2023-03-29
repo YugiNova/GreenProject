@@ -135,8 +135,8 @@ const Exam07 = () => {
     return(
         <div>
             <Header>
-                <SearchBox onChange={onSearch}/>
                 <ButtonImport onImport={onImport}/>
+                <SearchBox onChange={onSearch}/>
                 <ButtonCreate onClick={onCreate}>Add Book</ButtonCreate>
             </Header>
             <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_CITY={DEFAULT_CITY}/>
