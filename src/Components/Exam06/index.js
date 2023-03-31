@@ -3,7 +3,8 @@ import {Button, Modal,Form, Input} from 'antd';
 import axios from "axios";
 import TableBooks from "./TableBooks";
 import ModalFormBook from "./ModalFormBook";
-import { ButtonCreate, Header, SearchBox } from "./styles";
+import { ButtonCreate, Header, } from "./styles";
+import SearchBox from "../SearchBox";
 
 const DEFAULT_BOOK = {title:"",author:"",description:"", type:"", pageNumber: ""}
 
@@ -117,7 +118,8 @@ const Exam06 = () => {
     return(
         <div>
             <Header>
-                <SearchBox onChange={onSearch}/>
+                {/* <SearchBox onChange={onSearch}/> */}
+                <SearchBox/>
                 <ButtonCreate onClick={onCreate}>Add Book</ButtonCreate>
             </Header>
             <ModalFormBook loading={formLoading} open={open} onSubmit={onSubmit} onCancel={onCancel} formData={formData} setFormData={setFormdata} DEFAULT_BOOK={DEFAULT_BOOK}/>

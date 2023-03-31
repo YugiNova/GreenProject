@@ -1,32 +1,31 @@
 import { Button } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { Content, Footer, Header, Main, Sidebar } from "./styles";
+import { BorderLeftOutlined, UserSwitchOutlined} from '@ant-design/icons';
+import { Link } from "react-router-dom";
+import { Content, Footer, Header, Main, Sidebar, Layout, Logo } from "./styles";
+import logo from "../../assets/logo.png";
+import AuthUser from "./AuthUser";
 
 const DefaultLayout = ({children}) => {
-    const navigate = useNavigate();
-
-    const logout = () => {
-        localStorage.removeItem('token')
-        navigate(`/`)
-    }
 
     return (
-        <div>
-            <Header>
-                <a>Green Academy</a>
-                <Button onClick={logout}>Log out</Button>
-            </Header>
+        <Layout>
+            <Sidebar>
+                <Logo><img src= {logo}/></Logo>
+                <Link to='/dashboard'><BorderLeftOutlined /><span>Dashboard</span></Link>
+                <Link to='/student'><UserSwitchOutlined /><span>Student</span></Link>
+            </Sidebar>
             <Main>
-                <Sidebar>
-                    <Link to='/dashboard'>Dashboard</Link>
-                    <Link to='/student'>Student</Link>
-                </Sidebar>
+                <Header>
+                    {/* <Button onClick={logout}>Log out</Button> */}
+                    <AuthUser/>
+                </Header>
                 <Content>
                     {children}
                 </Content>
+                <Footer>Powered by Nguyễn Quốc Thắng</Footer>
             </Main>
-            <Footer>Powered by Nguyễn Quốc Thắng</Footer>
-        </div>
+
+        </Layout>
     )
 }
 
